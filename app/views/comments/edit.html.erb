@@ -1,0 +1,5 @@
+ <h1><b>Comment</b></h1>
+
+ <%= render 'form', comment: @comment,url: user_post_comment_path(params[:user_id], params[:post_id]) %>
+
+<%= link_to 'Back', user_post_path(params[:user_id], params[:post_id])  %>     

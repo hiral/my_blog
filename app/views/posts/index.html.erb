@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+<%= link_to "Create Post", new_user_post_path(@user.id) %>
+<table>
+	<tr> 
+		<th> Title </th>
+		<th> Create Date & Time </th>
+	</tr>
+	<% @posts.each do |post| %>
+	<tr>
+		<td><%= post.title %></td>
+		<td><%= post.created_at.strftime("%v %r") %></td>
+		<td><%= link_to "show", user_post_path(@user.id, post.id) %></td>
+		<td><%= link_to "Edit", edit_user_post_path(@user.id, post.id) %></td>
+        <td><%= link_to "Destroy", user_post_path(@user.id, post.id), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+	</tr>
+    <% end %>
+    <tr>
+		<td><%= link_to "Back", users_path %></td>
+	</tr> 	
+</table>

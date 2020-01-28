@@ -1,0 +1,74 @@
+<%= form_with(model: @user, local: true)  do |form| %>
+<% if @user.errors.any? %>
+    <div id="error_explanation">
+      <h2>
+        <%= pluralize(@user.errors.count, "error") %> prohibited
+        this article from being saved:
+      </h2>
+      <ul>
+        <% @user.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+<% end %>
+<%=form.label :name %><br>
+<%= form.text_field :name %><br>
+<%= form.label :birth_date %><br>
+<%= form.date_select :birth_date, start_year: 1990, end_year: 2020 %><br>
+<%= form.label :contact_number %><br>
+<%= form.text_field :contact_number %><br>
+<%= form.label "e-mail" %><br>
+<%= form.email_field :email, autocomplete: 'off' %><br>
+<%= form.label :aadhar_number %><br>
+<%= form.text_field :aadhar_number %><br>
+<%= form.label :parmenent_address %><br>
+<%= form.text_area :parmenent_address, id: "text" %><br>
+<%= form.label :select_country %>
+<%= form.select :country_id, @countries.collect {|c| [c.name, c.id]}, { include_blank: true }, onchange: "country_change(this.value);" %></br>
+<%= form.label :select_state %>
+<%= form.select :state_id, @states.collect {|c| [c.name, c.id]}, { include_blank: true } %></br>
+<%= form.label :select_city %>
+<%= form.select :city_id, @cities.collect {|c| [c.name, c.id]}, { include_blank: true } %></br>
+<%= form.check_box :same, id: "checkbox", onclick: "check();"  %>
+<%= form.label "parmenent_address is same as local_address" %><br>
+<%= form.label :local_address %><br>
+<%= form.text_area :local_address %><br>
+<%= form.check_box :terms_condition %>
+<%= form.label "term & conditions" %><br>
+<%= form.submit %><br>
+<% end %>
+<script type="text/javascript">
+function check()
+{
+  var text_value = document.getElementById("text").value;
+  var check_value = document.getElementById("checkbox");
+  if (check_value.checked == true)
+  {
+     document.getElementById('user_local_address').value = text_value;
+  }
+  else
+  {
+     document.getElementById('user_local_address').value = '';
+  }
+}  
+
+function country_change(country_id)
+{
+  alert(country_id);
+  $.ajax({
+    url: "<%= get_states_from_country_users_path %>",
+    method: 'POST',
+    dataType: 'script',
+    data: {
+      country_id: country_id,
+    },
+    success: function(html){
+    },
+    error: function(xhr, ajaxOptions, thrownError) {
+      alert(xhr.status);
+      alert(thrownError);
+    }
+  });
+}
+</script>

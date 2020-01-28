@@ -1,0 +1,20 @@
+<strong>Title:</strong>
+<%= @post.title %>
+<table>
+	<tr> 
+		<th> Comments </th>
+		<th> Create Date & Time </th>
+	</tr>
+	<% @comments.each do |comment| %>
+	<tr>
+		<td><%= comment.text_comments %></td>
+		<td><%= comment.created_at.strftime("%v %r") %></td>
+		<td><%= link_to "Edit", edit_user_post_comment_path(@user.id,@post.id,comment.id) %></td>
+		 <td><%= link_to "Destroy", user_post_comment_path(@user.id, @post.id, comment.id), method: :delete, data: { confirm: 'Are you sure?' } %></td><br>
+	</tr>
+	<% end %> 
+</table>
+
+<h1><b>add a Comment</b></h1>
+<%= render 'comments/form', comment: @comment, url: user_post_comments_path(params[:user_id], params[:id]) %>
+<%= link_to 'Back', user_posts_path(params[:user_id])  %> 
