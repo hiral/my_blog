@@ -12,7 +12,10 @@
 
 ActiveRecord::Schema.define(version: 2020_01_17_111530) do
 
-  create_table "cities", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "cities", force: :cascade do |t|
     t.string "name"
     t.bigint "state_id"
     t.datetime "created_at", null: false
@@ -21,7 +24,7 @@ ActiveRecord::Schema.define(version: 2020_01_17_111530) do
     t.index ["state_id"], name: "index_cities_on_state_id"
   end
 
-  create_table "comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "comments", force: :cascade do |t|
     t.text "text_comments"
     t.bigint "user_id"
     t.bigint "post_id"
@@ -31,14 +34,14 @@ ActiveRecord::Schema.define(version: 2020_01_17_111530) do
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
-  create_table "countries", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "countries", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_countries_on_name", unique: true
   end
 
-  create_table "posts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "posts", force: :cascade do |t|
     t.string "title"
     t.text "discription"
     t.bigint "user_id"
@@ -47,7 +50,7 @@ ActiveRecord::Schema.define(version: 2020_01_17_111530) do
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
-  create_table "states", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "states", force: :cascade do |t|
     t.string "name"
     t.bigint "country_id"
     t.datetime "created_at", null: false
@@ -56,15 +59,15 @@ ActiveRecord::Schema.define(version: 2020_01_17_111530) do
     t.index ["name"], name: "index_states_on_name", unique: true
   end
 
-  create_table "subjects", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "name", default: "1"
+  create_table "subjects", force: :cascade do |t|
+    t.string "name", default: "t"
     t.boolean "is_active"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_subjects_on_name", unique: true
   end
 
-  create_table "technologies", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "technologies", force: :cascade do |t|
     t.string "name"
     t.boolean "is_active", default: true
     t.datetime "created_at", null: false
@@ -72,7 +75,7 @@ ActiveRecord::Schema.define(version: 2020_01_17_111530) do
     t.index ["name"], name: "index_technologies_on_name", unique: true
   end
 
-  create_table "technologies_users", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "technologies_users", id: false, force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "technology_id"
     t.index ["technology_id"], name: "index_technologies_users_on_technology_id"
@@ -80,7 +83,7 @@ ActiveRecord::Schema.define(version: 2020_01_17_111530) do
     t.index ["user_id"], name: "index_technologies_users_on_user_id"
   end
 
-  create_table "user_subjects", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "user_subjects", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "subject_id"
     t.datetime "created_at", null: false
@@ -90,7 +93,7 @@ ActiveRecord::Schema.define(version: 2020_01_17_111530) do
     t.index ["user_id"], name: "index_user_subjects_on_user_id"
   end
 
-  create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "users", force: :cascade do |t|
     t.string "name"
     t.boolean "terms_condition"
     t.string "contact_number"
