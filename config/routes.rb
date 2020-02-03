@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  root 'users#index'
   resources :cities
   resources :states
   resources :countries
