@@ -1,31 +1,55 @@
-<p id="notice"><%= notice %></p>
-   
-<h1>All Users from template branch</h1>
-<h4><%= link_to 'New User', new_user_path %></h4>
-<table>
-	<tr>
-		<th> Name </th>
-    <th> Birth Date </th>
-    <th> Contact Number </th> 
-    <th> E-mail </th>
-    <th> Aadhar Number </th>
-    <th> Country Name  </th>
-    <th> State Name </th>
-    <th> City Name </th>
-  </tr>
-	<% @users.each do |user| %>
-    <tr>
-      <td><%= user.name %></td>
-      <td><%= user.birth_date.strftime("%v") %></td>
-      <td><%= user.contact_number %></td>
-      <td><%= user.email %></td>
-      <td><%= user.aadhar_number %></td>
-      <td><%= user.country.try(:name) %></td>
-      <td><%= user.state.try(:name) %></td>
-      <td><%= user.city.try(:name) %></td>
-      <td><%= link_to "Posts", user_posts_path(user.id) %></td>
-      <td><%= link_to "Edit", edit_user_path(user.id) %></td>
-      <td><%= link_to "Destroy", user_path(user.id), method: :delete, data: { confirm: 'Are you sure?' } %></td>
-    </tr>
-  <% end %>	
-
+<% if notice.present? %>
+  <div class="alert alert-success alert-styled-left alert-arrow-left alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+    <span class="font-weight-semibold"><%= notice %></span>
+  </div>
+<% end %>
+<div class="card">
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Birth Date</th>
+          <th>Contact Number</th> 
+          <th>E-mail</th>
+          <th>Aadhar Number</th>
+          <th>Country Name</th>
+          <th>State Name</th>
+          <th>City Name</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @users.each do |user| %>
+          <tr>
+            <td><%= user.name %></td>
+            <td><%= user.birth_date.strftime("%v") %></td>
+            <td><%= user.contact_number %></td>
+            <td><%= user.email %></td>
+            <td><%= user.aadhar_number %></td>
+            <td><%= user.country.try(:name) %></td>
+            <td><%= user.state.try(:name) %></td>
+            <td><%= user.city.try(:name) %></td>
+            <td>
+              <div class="btn-group">
+                <button type="button" class="btn btn-primary" data-toggle="dropdown"><i class="icon-three-bars  icon-1x"></i></button>
+                <div class="dropdown-menu dropdown-menu-right">
+                  <%= link_to user_posts_path(user.id), class: "dropdown-item" do %>
+                  <i class="icon-stack mr-1 icon-1x"></i> Posts
+                  <% end %>
+                  <%= link_to edit_user_path(user.id), class: "dropdown-item" do %>
+                  <i class="icon-pencil mr-1 icon-1x"></i> Edit
+                  <% end %>
+                  <%= link_to user_path(user.id), method: :delete, data: { confirm: 'Are you sure?' }, class: "dropdown-item" do %>
+                  <i class="icon-x mr-1 icon-1x"></i> Destroy
+                  <% end %>
+                </div>
+              </div>
+            </td>  
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

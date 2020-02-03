@@ -1,20 +1,67 @@
-<strong>Title:</strong>
-<%= @post.title %>
-<table>
-	<tr> 
-		<th> Comments </th>
-		<th> Create Date & Time </th>
-	</tr>
-	<% @comments.each do |comment| %>
-	<tr>
-		<td><%= comment.text_comments %></td>
-		<td><%= comment.created_at.strftime("%v %r") %></td>
-		<td><%= link_to "Edit", edit_user_post_comment_path(@user.id,@post.id,comment.id) %></td>
-		 <td><%= link_to "Destroy", user_post_comment_path(@user.id, @post.id, comment.id), method: :delete, data: { confirm: 'Are you sure?' } %></td><br>
-	</tr>
-	<% end %> 
-</table>
+<% if notice.present? %>
+<div class="alert alert-success alert-styled-left alert-arrow-left alert-dismissible">
+	<button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+	<span class="font-weight-semibold"><%= notice %></span>
+</div>
+<% end %><!-- 
+<% if @comment.errors.any? %>
+    <div class="alert alert-danger alert-styled-left alert-dismissible">
+      <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+      <div id="error_explanation">
+        <ul>
+          <% @comment.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+<% end %> -->
+<div class="row">
+	<div class="col-md-6">
+		<div class="card">
+			<div class="card-body">
+				<h5 class="card-title"><%= @post.title.upcase() %></h5>
+				<p class="card-text"><%= @post.discription %></p>
+			</div>
+		</div>
+	</div>
+</div>
 
-<h1><b>add a Comment</b></h1>
-<%= render 'comments/form', comment: @comment, url: user_post_comments_path(params[:user_id], params[:id]) %>
-<%= link_to 'Back', user_posts_path(params[:user_id])  %> 
+<div class="card">
+	<div class="card-header header-elements-inline">
+		<h5 class="card-title">Comments</h5>
+	</div>
+	<div class="table-responsive">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th> Comments </th>
+					<th> Create Date & Time </th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				<% @comments.each do |comment| %>
+				<tr>
+					<td><%= comment.text_comments %></td>
+					<td><%= comment.created_at.strftime("%v %r") %></td>
+					<td>
+						<div class="btn-group">
+							<button type="button" class="btn btn-primary" data-toggle="dropdown"><i class="icon-three-bars  icon-1x"></i></button>
+							<div class="dropdown-menu dropdown-menu-right">
+								<%= link_to edit_user_post_comment_path(@user.id,@post.id,comment.id), class: "dropdown-item" do %>
+								<i class="icon-pencil mr-0 icon-1x"></i> Edit
+								<% end %>
+								<%= link_to user_post_comment_path(@user.id, @post.id, comment.id), method: :delete, data: { confirm: 'Are you sure?' }, class: "dropdown-item" do %>
+								<i class="icon-x mr-1 icon-1x"></i> Destroy
+								<% end %>
+							</div>
+						</div>
+					</td>
+				</tr>
+				<% end %>
+			</tbody>
+		</table>
+	</div>
+</div>
+<%= render 'comments/form', comment: @comment, url: user_post_comments_path(params[:user_id], params[:id].present? ? params[:id] : params[:post_id]) %> 

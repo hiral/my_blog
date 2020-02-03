@@ -1,43 +1,88 @@
-<%= form_with(model: @user, local: true)  do |form| %>
-<% if @user.errors.any? %>
-    <div id="error_explanation">
-      <h2>
-        <%= pluralize(@user.errors.count, "error") %> prohibited
-        this article from being saved:
-      </h2>
-      <ul>
-        <% @user.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
+<div class="row">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header header-elements-inline">
+        <h5 class="card-title">User</h5>
+      </div>
+      <div class="card-body">
+        <%= form_with(model: @user, local: true)  do |form| %>
+        <% if @user.errors.any? %>
+        <div class="alert alert-danger alert-styled-left alert-dismissible">
+          <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+          <div id="error_explanation">
+            <h2>
+            <%= pluralize(@user.errors.count, "error") %> prohibited
+            this article from being saved:
+            </h2>
+            <ul>
+              <% @user.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
         <% end %>
-      </ul>
+        <div class="form-group">
+          <%=form.label :name %>
+          <%= form.text_field :name, class: "form-control" %>
+        </div>
+        <%= form.label :birth_date %>
+        <div class="form-group row mx-0">
+          <%= form.date_select :birth_date, {start_year: 1990, end_year: 2020}, {:class => "form-control col-sm-3"} %>
+        </div>
+        <div class="form-group">
+          <%= form.label :contact_number %>
+          <%= form.text_field :contact_number, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= form.label "e-mail" %>
+          <%= form.email_field :email, autocomplete: 'off', class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= form.label :aadhar_number %>
+          <%= form.text_field :aadhar_number, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= form.label :parmenent_address %>
+          <%= form.text_area :parmenent_address, id: "text", class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= form.label :select_country %>
+          <%= form.select :country_id, @countries.collect {|c| [c.name, c.id]}, { include_blank: true }, onchange: "country_change(this.value);", class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= form.label :select_state %>
+          <%= form.select :state_id, @states.collect {|c| [c.name, c.id]}, { include_blank: true }, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= form.label :select_city %>
+          <%= form.select :city_id, @cities.collect {|c| [c.name, c.id]}, { include_blank: true }, class: "form-control" %>
+        </div>
+        <div>
+          <%= form.check_box :same, id: "checkbox", onclick: "check();" %>
+          <%= form.label "parmenent_address is same as local_address" %>
+        </div>
+        <div class="form-group">
+          <%= form.label :local_address %>
+          <%= form.text_area :local_address, class: "form-control" %>
+        </div>
+        <div>
+          <%= form.check_box :terms_condition %>
+          <%= form.label "term & conditions" %>
+        </div>
+        <div class="text-right">
+          <%= form.submit class: "btn btn-primary" do %>
+          <i class="icon-paperplane ml-2"></i> submit form
+          <% end %>
+        </div>
+        <!-- <div class="form-group">
+          <%= link_to 'Back', users_path, class: "btn btn-primary" %>
+        </div> -->
+        <% end %>
+      </div>
     </div>
-<% end %>
-<%=form.label :name %><br>
-<%= form.text_field :name %><br>
-<%= form.label :birth_date %><br>
-<%= form.date_select :birth_date, start_year: 1990, end_year: 2020 %><br>
-<%= form.label :contact_number %><br>
-<%= form.text_field :contact_number %><br>
-<%= form.label "e-mail" %><br>
-<%= form.email_field :email, autocomplete: 'off' %><br>
-<%= form.label :aadhar_number %><br>
-<%= form.text_field :aadhar_number %><br>
-<%= form.label :parmenent_address %><br>
-<%= form.text_area :parmenent_address, id: "text" %><br>
-<%= form.label :select_country %>
-<%= form.select :country_id, @countries.collect {|c| [c.name, c.id]}, { include_blank: true }, onchange: "country_change(this.value);" %></br>
-<%= form.label :select_state %>
-<%= form.select :state_id, @states.collect {|c| [c.name, c.id]}, { include_blank: true } %></br>
-<%= form.label :select_city %>
-<%= form.select :city_id, @cities.collect {|c| [c.name, c.id]}, { include_blank: true } %></br>
-<%= form.check_box :same, id: "checkbox", onclick: "check();"  %>
-<%= form.label "parmenent_address is same as local_address" %><br>
-<%= form.label :local_address %><br>
-<%= form.text_area :local_address %><br>
-<%= form.check_box :terms_condition %>
-<%= form.label "term & conditions" %><br>
-<%= form.submit %><br>
-<% end %>
+  </div>
+</div>
 <script type="text/javascript">
 function check()
 {
@@ -45,30 +90,29 @@ function check()
   var check_value = document.getElementById("checkbox");
   if (check_value.checked == true)
   {
-     document.getElementById('user_local_address').value = text_value;
+    document.getElementById('user_local_address').value = text_value;
   }
   else
   {
-     document.getElementById('user_local_address').value = '';
+    document.getElementById('user_local_address').value = '';
   }
-}  
-
+}
 function country_change(country_id)
 {
   alert(country_id);
   $.ajax({
-    url: "<%= get_states_from_country_users_path %>",
-    method: 'POST',
-    dataType: 'script',
-    data: {
-      country_id: country_id,
-    },
-    success: function(html){
-    },
-    error: function(xhr, ajaxOptions, thrownError) {
-      alert(xhr.status);
-      alert(thrownError);
-    }
+  url: "<%= get_states_from_country_users_path %>",
+  method: 'POST',
+  dataType: 'script',
+  data: {
+  country_id: country_id,
+  },
+  success: function(html){
+  },
+  error: function(xhr, ajaxOptions, thrownError) {
+  // alert(xhr.status);
+  // alert(thrownError);
+  }
   });
-}
+  }
 </script>

@@ -1,0 +1,43 @@
+<!-- Page header -->
+<div class="page-header page-header-light">
+	<div class="page-header-content header-elements-md-inline">
+		 <div class="page-title d-flex">
+			<h4><%= link_to :back do %><i class="icon-arrow-left52 mr-2"></i><% end %>
+			<span class="font-weight-semibold">
+				<% if controller.action_name == "new" %>
+				New <%= controller_name.capitalize.singularize %>
+				<% elsif controller.action_name == "edit" %>
+				Edit <%= controller_name.capitalize.singularize %>
+				<% elsif controller.action_name == "update" %>
+				Update <%= controller_name.capitalize.singularize %>
+				<% elsif controller.action_name == "show" %>
+				<%= controller_name.capitalize.singularize %> Details
+				<% else %>
+				<%=	controller_name.capitalize %>
+				<% end %>
+			</span> </h4>
+		</div>
+
+		<div class="header-elements d-none">
+			<div class="d-flex justify-content-center">
+				<% if controller_name == "users" && action_name == "index" %>
+				<%= link_to  new_user_path, class: "btn btn-primary btn-labeled btn-labeled-left" do %><b><i class="icon-plus2 mr-0 icon-1x"></i></b> New User<% end %>
+				<% elsif controller_name == "posts" && action_name == "index" %>
+				<%= link_to new_user_post_path(@user.id), class: "btn btn-primary btn-labeled btn-labeled-left" do %><b><i class="icon-plus2 mr-0 icon-1x"></i></b> New Post <% end %>
+				<% elsif controller_name == "users" && action_name == "new" %>
+				<h4><%= link_to  users_path, class: "btn btn-primary btn-labeled btn-labeled-left" do %><b><i class="icon-plus2 mr-0 icon-1x"></i></b>Users<% end %></h4>
+				<% elsif controller_name == "users" && action_name == "edit" %>
+				<h4><%= link_to users_path, class: "btn btn-primary btn-labeled btn-labeled-left" do %><b><i class="icon-plus2 mr-0 icon-1x"></i></b>Users<% end %></h4>
+				<% elsif controller_name == "posts" && action_name == "new" %>
+				<h4><%= link_to user_posts_path, class: "btn btn-primary btn-labeled btn-labeled-left" do %><b><i class="icon-plus2 mr-0 icon-1x"></i></b>Posts<% end %></h4>
+				<% elsif controller_name == "posts" && action_name == "edit" %>
+				<h4><%= link_to user_posts_path, class: "btn btn-primary btn-labeled btn-labeled-left" do %><b><i class="icon-plus2 mr-0 icon-1x"></i></b>Posts<% end %></h4>
+				<% elsif controller_name == "posts" && action_name == "show" %>
+				<h4><%= link_to user_posts_path, class: "btn btn-primary btn-labeled btn-labeled-left" do %><b><i class="icon-plus2 mr-0 icon-1x"></i></b>Posts<% end %></h4>
+				<h4><%= link_to edit_user_post_path, class: "btn btn-primary btn-labeled btn-labeled-left" do %><b><i class="icon-plus2 mr-0 icon-1x"></i></b>Edit Post<% end %></h4>
+				<% end %>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- /page header

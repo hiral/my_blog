@@ -1,20 +1,41 @@
-<%= form_with(model: @comment, local: true, url: url) do |form| %>
 <% if @comment.errors.any? %>
-    <div id="error_explanation">
-      <h2>
-        <%= pluralize(@comment.errors.count, "error") %> prohibited
-        this article from being saved:
-      </h2>
-      <ul>
-        <% @comment.errors.full_messages.each do |msg| %>
+    <div class="alert alert-danger alert-styled-left alert-dismissible">
+      <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+      <div id="error_explanation">
+        <ul>
+          <% @comment.errors.full_messages.each do |msg| %>
           <li><%= msg %></li>
-        <% end %>
-      </ul>
+          <% end %>
+        </ul>
+      </div>
     </div>
 <% end %>
-<%= form.label :text_comments %><br>
-<%= form.text_field :text_comments %>
-<%= form.hidden_field :user_id, value: params[:user_id] %>
-<%= form.hidden_field :post_id, value: @comment.new_record? ? params[:id] : params[:post_id] %>
-<%= form.submit %><br> 
-<% end %>    
+<div class="card">
+  <div class="card-header header-elements-inline">
+    <h5 class="card-title">Add Comment</h5>
+  </div>
+  <div class="card-body">
+    <%= form_with(model: @comment, local: true, url: url) do |form| %>
+    <div class="form-group row">
+      <%= form.label :text_comments %>
+        <div class="col-lg-9">
+          <%= form.text_field :text_comments, class: "form-control" %>
+        </div>
+    </div>
+        <%= form.hidden_field :user_id, value: params[:user_id] %>
+        <%= form.hidden_field :post_id, value: @comment.new_record? ? params[:id] : params[:post_id] %>
+    <div class="text-right">
+      <%= form.submit class: "btn btn-primary" do %>
+      <i class="icon-paperplane ml-2"></i> submit form
+      <% end %>
+    </div>
+    <% end %>
+  </div>
+</div>
+<!-- <div class="form-group">
+  <% if params[:action] == "edit" %>
+  <%= link_to 'Back', :back, class: "btn btn-primary" %>
+  <% else %>
+  <%= link_to 'Back', user_posts_path(params[:user_id]), class: "btn btn-primary" %>
+  <% end %>
+</div> -->

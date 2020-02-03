@@ -11,13 +11,16 @@ class CommentsController < ApplicationController
 	end
 
 	def create
+    @user = User.find_by_id(params[:user_id])
+    @post = Post.find_by_id(params[:post_id])
+    @comments = @post.comments
     @comment = Comment.new(comment_params)
     respond_to do |format|
       if @comment.save
         format.html { redirect_to  user_post_path(params[:user_id],params[
           :post_id]), notice: 'comment was successfully created.' } 
       else
-        format.html { render :new }
+        format.html { render "posts/show" }
       end
     end   
   end
@@ -33,7 +36,7 @@ class CommentsController < ApplicationController
         format.html { redirect_to user_post_path(params[:user_id],params[
           :post_id]), notice: 'comment was successfully updated.' }
       else
-        format.html { render :new }
+        format.html { render "edit"}
       end
     end
   end
