@@ -1,0 +1,10 @@
+/*
+*= require layout2/bootstrap.min
+*= require layout2/bootstrap_limitless.min
+*= require layout2/colors.min
+*= require layout2/components.min
+*= require layout2/layout.min
+*= require layout2/styles.min
+* require_tree 
+* require_self
+*/

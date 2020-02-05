@@ -8,23 +8,21 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
-    <%= stylesheet_link_tag 'layout1', media: 'all' %>
-    <%= javascript_include_tag 'layout1' %>
+    <%= stylesheet_link_tag 'layout2', media: 'all' %>
+    <%= javascript_include_tag 'layout2' %>
   </head>
   <body>
-    <%= render "layouts/layout1/main_navbar" %>
+    <%= render "layouts/layout2/main_navbar" %>
     <!-- Page content -->
     <div class="page-content">
-      <%= render "layouts/layout1/left_sidebar" %> 
       <!-- Main content -->
       <div class="content-wrapper">
-        <%= render "layouts/layout1/header_file" %> 
         <!-- Content area -->
         <div class="content">
           <%= yield %>
         </div>
         <!-- /content area -->
-        <%= render "layouts/layout1/footer" %> 
+        <%= render "layouts/layout2/footer" %> 
       </div>
       <!-- /main content -->
     </div>
