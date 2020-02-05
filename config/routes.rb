@@ -1,8 +1,5 @@
 Rails.application.routes.draw do
-<<<<<<< HEAD
   devise_for :login_users, controllers: { sessions: 'login_users/sessions', registrations: "login_users/registrations", passwords: "login_users/passwords" }
-=======
->>>>>>> master
   root 'users#index'
   resources :cities
   resources :states
