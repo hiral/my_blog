@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  devise_for :login_users, controllers: { sessions: 'login_users/sessions', registrations: "login_users/registrations", passwords: "login_users/passwords" }
+  root 'users#index'
   resources :cities
   resources :states
   resources :countries

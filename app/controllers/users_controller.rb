@@ -1,17 +1,20 @@
 class UsersController < ApplicationController
   # Callbacks
+  before_action :authenticate_login_user!
   skip_before_action :verify_authenticity_token, only: [:get_states_from_country]
   before_action :set_User, only: [:edit, :update, :destroy]
   before_action :get_country, only: [:new, :create, :edit, :update]
   before_action :get_state, only: [:new, :create, :edit, :update] 
-  before_action :get_city, only: [:new, :create, :edit, :update] 
+  before_action :get_city, only: [:new, :create, :edit, :update]
 
   def index
   	@users = User.all
+    render "login_users/index"
   end
 
   def new
   	@user = User.new
+    render "login_users/new"
   end
 
   def create
