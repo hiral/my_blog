@@ -23,7 +23,7 @@ class UsersController < ApplicationController
       if @user.save 
   	    format.html { redirect_to users_path, notice: 'User was successfully created.' }
       else
-        format.html { render :new }
+        format.html { render "login_users/new" }
       end
     end  
   end
@@ -36,7 +36,7 @@ class UsersController < ApplicationController
       if @user.update(user_params)
         format.html { redirect_to users_path, notice: 'User was successfully updated.' }
       else
-        format.html { render :new }
+        format.html { render "login_users/new" }
       end
     end
   end
@@ -50,7 +50,14 @@ class UsersController < ApplicationController
   end
 
   def get_states_from_country
-    raise params.inspect
+    @country = Country.find(params[:country_id])
+    @states = @country.states
+    # puts "#{@states.inspect}===================================="
+    respond_to do |format|
+      format.json { 
+        render json: { states: @states.as_json }
+      }
+    end
   end
 
   private
